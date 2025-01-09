@@ -245,7 +245,7 @@ And if you're skidding it as we speak, please take some time to read the license
 
 Regards,
 Infamous Koala
-"""# fish?
+"""# fish :)
 
     file.write(content)
 
@@ -256,9 +256,17 @@ while True:
     printascii()
     while True:
         try:
-            url = input(f"{cyan}[>]{white} url: ")
+            if os.path.exists("lastwebhook.txt"):
+                input1=input(f"{cyan}[>]{white} Would you like to use last webhook(Y,N)? ")
+            if input1.lower()=="y":
+                with open("lastwebhook.txt", "w") as file:
+                    url=file.read()
+            else:
+                url = input(f"{cyan}[>]{white} url: ")
             response = requests.get(url)
             if response.status_code == 200:
+                with open("lastwebhook.txt", "w") as file:
+                    file.write(webhook_input)
                 webhook = response.json()
                 break
             else:
