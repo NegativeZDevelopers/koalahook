@@ -11,13 +11,8 @@ from tkinter import filedialog as fd
 from proxyScraper import scrapeaa
 from proxyChecker import checky
 #Proxies scraper credits to someone i dont remember :/
-#Recommend http
-name='proxies.txt'
-proxiescount=asyncio.run(scrapeaa('http',name))
-validproxies=checky(name,'http')
 # colors because I cannot remember to change it everytime
-with open(name,"r") as f:
-    proxies=f.readlines()
+
 black = "\033[1;30m"
 titletext = " [-- KOALAHOOK --] github.com/infamouskoala"
 red = "\033[1;31m"
@@ -28,8 +23,17 @@ purple = "\033[1;35m"
 cyan = "\033[1;36m"
 white = "\033[1;37m"
 invalidurl = f"{red}[! KOALAHOOK !]{white} Invalid url!"
-# test = "" test webhook, dont forget to remove :3
-
+# test = "" test webhook, dont forget to remove
+#Recommend http
+name='proxies.txt'
+z="y"
+if os.path.exists(name):
+    z=input(f"{cyan}[>]{white} Use last proxies(Y,N)? ")
+if z.lower()=="n":
+    proxiescount=asyncio.run(scrapeaa('http',name))
+    validproxies=checky(name,'http')
+with open(name,"r") as f:
+    proxies=f.readlines()
 socials = {
     "github": {"link": "https://github.com/infamouskoala"},
     "youtube": {"link": "https://youtube.com/infamouskoala"},
@@ -256,6 +260,7 @@ while True:
     printascii()
     while True:
         try:
+            input1="N"
             if os.path.exists("lastwebhook.txt"):
                 input1=input(f"{cyan}[>]{white} Would you like to use last webhook(Y,N)? ")
             if input1.lower()=="y":
@@ -266,7 +271,7 @@ while True:
             response = requests.get(url)
             if response.status_code == 200:
                 with open("lastwebhook.txt", "w") as file:
-                    file.write(webhook_input)
+                    file.write(url)
                 webhook = response.json()
                 break
             else:
