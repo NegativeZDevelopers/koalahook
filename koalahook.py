@@ -5,12 +5,21 @@ import time
 import os
 import webbrowser
 import base64
+import random
+import asyncio
 from tkinter import filedialog as fd
-
+from proxyScraper import scrapeaa
+from proxyChecker import checky
+#Proxies scraper credits to someone i dont remember :/
+#Recommend http
+name='proxies.txt'
+proxiescount=asyncio.run(scrapeaa('http',name))
+validproxies=checky(name,'http')
 # colors because I cannot remember to change it everytime
-
+with open(name,"r") as f:
+    proxies=f.readlines()
 black = "\033[1;30m"
-titletext = " [-- KOALAHOOK --] Made by github.com/infamouskoala"
+titletext = " [-- KOALAHOOK --] github.com/infamouskoala"
 red = "\033[1;31m"
 green = "\033[1;32m"
 yellow = "\033[1;33m"
@@ -33,7 +42,7 @@ logo = """
      ) /  \_(_)(_(_(/_(_(_) /   (__(_)(_) /(__
     (_/                  (_/                  
     >> [Webhook Multitool developed by @infamouskoala]
-"""
+"""#I not skidding yours :)
 
 for platform, info in socials.items():
     link = info["link"].replace("https://", "")
@@ -156,8 +165,11 @@ def deletehook(url):
 
 def sendmessage(url):
     msg = input(f"{yellow}[? KOALAHOOK ?]{white} Message: ")
+    proxies = {
+               "http": random.choice(proxies),
+          }
     try:
-        response = requests.post(url, json={"content": msg})
+        response = requests.post(url, json={"content": msg},proxies=proxies)
         response.raise_for_status()
         print(f"{green}[+ KOALAHOOK +]{white} Message sent successfully.")
 
@@ -200,7 +212,11 @@ def spamhook(url):
     try:
         print(f"{red}[! KOALAHOOK !] Spam has started, Relaunch the tool to stop spam and use it again.")
         while True:
-            response = requests.post(url, json={"content": msg})
+            proxies = {
+               "http": random.choice(proxies),
+          }
+
+            response = requests.post(url, json={"content": msg},proxies=proxies)
             response.raise_for_status()
             print(f"{green}[+ KOALAHOOK +]{white} Sent message")
             time.sleep(timeout)
@@ -229,7 +245,7 @@ And if you're skidding it as we speak, please take some time to read the license
 
 Regards,
 Infamous Koala
-"""
+"""# fish?
 
     file.write(content)
 
