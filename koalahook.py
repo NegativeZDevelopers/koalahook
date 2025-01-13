@@ -33,7 +33,7 @@ if z.lower()=="n":
     proxiescount=asyncio.run(scrapeaa('http',name))
     validproxies=checky(name,'http')
 with open(name,"r") as f:
-    proxies=f.readlines()
+    validproxies=f.readlines()
 socials = {
     "github": {"link": "https://github.com/infamouskoala"},
     "youtube": {"link": "https://youtube.com/infamouskoala"},
@@ -170,7 +170,7 @@ def deletehook(url):
 def sendmessage(url):
     msg = input(f"{yellow}[? KOALAHOOK ?]{white} Message: ")
     proxies = {
-               "http": random.choice(proxies),
+               "http": random.choice(validproxies),
           }
     try:
         response = requests.post(url, json={"content": msg},proxies=proxies)
@@ -217,24 +217,25 @@ def spamhook(url):
         print(f"{red}[! KOALAHOOK !] Spam has started, Relaunch the tool to stop spam and use it again.")
         while True:
             proxies = {
-               "http": random.choice(proxies),
+               "http": random.choice(validproxies),
           }
 
             response = requests.post(url, json={"content": msg},proxies=proxies)
-            response.raise_for_status()
-            print(f"{green}[+ KOALAHOOK +]{white} Sent message")
+            # response.raise_for_status()
+            print(f"{green}[+ KOALAHOOK +]{white} Sent message-",response.status_code)
             time.sleep(timeout)
-    except requests.exceptions.HTTPError as errh:
-        print(f"{red}[! KOALAHOOK !] HTTP Error: {errh}")
+    # except requests.exceptions.HTTPError as errh:
+    #     print(f"{red}[! KOALAHOOK !] HTTP Error: {errh}")
 
-    except requests.exceptions.ConnectionError as errc:
-        print(f"{red}[! KOALAHOOK !] Error Connecting: {errc}")
+    # except requests.exceptions.ConnectionError as errc:
+    #     print(f"{red}[! KOALAHOOK !] Error Connecting: {errc}")
 
-    except requests.exceptions.Timeout as errt:
-        print(f"{red}[! KOALAHOOK !] Timeout Error: {errt}")
+    # except requests.exceptions.Timeout as errt:
+    #     print(f"{red}[! KOALAHOOK !] Timeout Error: {errt}")
 
-    except requests.exceptions.RequestException as err:
-        print(f"{red}[! KOALAHOOK !] Request Exception: {err}")
+    except:
+        pass
+        # print(f"{red}[! KOALAHOOK !] Request Exception: {err}")
 
 # injecting antiskid into your pc, no skidding kid :)
 with open(f"{os.getcwd()}\\src\\skidded.txt", "w+") as file:
@@ -254,18 +255,19 @@ Infamous Koala
     file.write(content)
 
 webhook = {}
-os.system("title github.com/infamouskoala")
+os.system("title github.com/infamouskoala") # wowwww I'm execited :)
 while True:
     clear()
     printascii()
     while True:
+        url=""
         try:
             input1="N"
-            if os.path.exists("lastwebhook.txt"):
+            if os.path.exists("lastwebhook.txt") and os.path.getsize("lastwebhook.txt") > 0:
                 input1=input(f"{cyan}[>]{white} Would you like to use last webhook(Y,N)? ")
             if input1.lower()=="y":
-                with open("lastwebhook.txt", "r") as file:
-                    url=file.read()
+                with open("lastwebhook.txt", "a") as file:
+                    url=file.readlines()[0]
             else:
                 url = input(f"{cyan}[>]{white} url: ")
             response = requests.get(url)
@@ -279,6 +281,7 @@ while True:
         except Exception as e:
             if isinstance(e, KeyboardInterrupt):
                 raise SystemExit
+            print(url)
             print("Invalid Webhook")
     while True:
         intromenu()
@@ -306,8 +309,8 @@ while True:
                 print("Application ID: {}".format(webhook["application_id"]))
             print("Server Information\n    Guild ID: {}\n    Channel ID: {}".format(webhook["guild_id"], webhook["channel_id"]))
             print("Webhook Information\n    Webhook ID: {}\n    Name: {}\n    Type: {}\n    Token: {}".format(webhook["id"], webhook["name"], webhook["type"], webhook["token"]))
-            user = webhook["user"]
-            print("User Information (Creator)\n    Username: {}\n    User ID: {}".format(user["username"] + "#" + user["discriminator"], user["id"]))
+            # user = webhook["user"]
+            # print("User Information (Creator)\n    Username: {}\n    User ID: {}".format(user["username"] + "#" + user["discriminator"], user["id"]))
             pause("\nPress any key to return to menu...")
         elif ch == 6:
             os.system("title Logging out...")
