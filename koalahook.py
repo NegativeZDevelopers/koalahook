@@ -264,7 +264,7 @@ while True:
             if os.path.exists("lastwebhook.txt"):
                 input1=input(f"{cyan}[>]{white} Would you like to use last webhook(Y,N)? ")
             if input1.lower()=="y":
-                with open("lastwebhook.txt", "w") as file:
+                with open("lastwebhook.txt", "r") as file:
                     url=file.read()
             else:
                 url = input(f"{cyan}[>]{white} url: ")
