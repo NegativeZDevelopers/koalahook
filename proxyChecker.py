@@ -83,7 +83,7 @@ def check(file, timeout, method, site, verbose, random_user_agent):
     with open(file, "w") as f:
         for proxy in valid_proxies:
             f.write(str(proxy) + "\n")
-
+    valid_proxies.append("127.0.0.1:80")
     print(f"Found {len(valid_proxies)} valid proxies")
     return len(valid_proxies)
 def checky(a,p):
